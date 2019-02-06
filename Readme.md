@@ -12,3 +12,4 @@ sudo lxd init
 ## Get started
 
 - [Installation](./docs/install.md)
+- [Deployment](./docs/deploy.md)

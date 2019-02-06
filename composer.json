@@ -33,6 +33,13 @@
         "symfony/web-server-bundle": "4.2.*"
     },
     "config": {
+        "platform": {
+            "php": "7.2.10",
+            "ext-xml": "1",
+            "ext-curl": "1",
+            "ext-mbstring": "1",
+            "ext-zip": "1"
+        },
         "preferred-install": {
             "*": "dist"
         },

@@ -49,7 +49,7 @@ ssh root@domotic.lxc
 apt install apache2 -y
 apt install libapache2-mod-fcgid -y
 apt install php7.2 -y
-apt install php7.2-fpm php7.2-xml php7.2-curl php7.2-mbstring php7.2-zip -y
+apt install php7.2-fpm php7.2-xml php7.2-curl php7.2-mbstring php7.2-zip php7.2-mysql -y
 apt install mariadb-client mariadb-server -y
 ```
 
@@ -122,8 +122,8 @@ systemctl restart php7.2-fpm
         FallbackResource disabled
     </Directory>
 
-    ErrorLog /var/log/apache2/project_error.log
-    CustomLog /var/log/apache2/project_access.log combined
+    ErrorLog /var/log/apache2/domotic_error.log
+    CustomLog /var/log/apache2/domotic_access.log combined
 </VirtualHost>
 ```
 
