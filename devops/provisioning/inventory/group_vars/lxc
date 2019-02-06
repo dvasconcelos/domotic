@@ -1,0 +1,18 @@
+---
+project_delivery_path: "/var/www/domotic"
+
+project_hostname: "{{ project_name }}.lxc"
+
+project_delivery_user:  ubuntu
+project_delivery_group: ubuntu
+
+project_webserver_user: www-data
+project_webserver_group: www-data
+
+project_app_env: "dev"
+
+project_db_host: "127.0.0.1"
+project_db_port: "3306"
+project_db_user: "db_user"
+project_db_password: "db_password"
+project_db_name: "db_name"

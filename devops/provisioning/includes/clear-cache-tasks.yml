@@ -1,0 +1,10 @@
+---
+- name: "Flush Symfony cache"
+  shell: "php bin/console cache:clear --env={{ project_app_env }}"
+  args:
+    chdir: "{{ project_source_path }}"
+
+- name: "Warmup Symfony cache"
+  shell: "php bin/console cache:warmup --env={{ project_app_env }}"
+  args:
+    chdir: "{{ project_source_path }}"

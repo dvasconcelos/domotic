@@ -1,0 +1,26 @@
+---
+project_name: domotic
+
+project_delivery_path: "/volume1/web/{{ project_name }}"
+project_source_path:   "{{ project_delivery_path }}/current"
+deploy_release_path: "./../../build/dist/{{ project_name }}-{{ deploy_version }}.tar.gz"
+deploy_keep_releases: 3
+
+project_hostname: "{{ project_name }}.local"
+
+project_delivery_user:  DSUser
+project_delivery_group: users
+
+project_webserver_user: http
+project_webserver_group: http
+
+project_db_host: "127.0.0.1"
+project_db_port: "3306"
+project_db_user: "db_user"
+project_db_password: "db_password"
+project_db_name: "db_name"
+
+project_app_env: "prod"
+project_app_secret: "9f93b697c9ec7acb394b1b2a041fba19"
+project_database_url: "mysql://{{ project_db_user }}:{{ project_db_password }}@{{ project_db_host }}:3306/{{ project_db_name }}"
+project_mailer_url: "null://localhost"

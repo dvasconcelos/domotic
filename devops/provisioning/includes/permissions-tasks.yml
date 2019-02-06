@@ -1,0 +1,12 @@
+---
+- name: "Fix permissions for apache folders"
+  file:
+    path: "{{ item }}"
+    owner: "{{ project_delivery_user }}"
+    group: "{{ project_webserver_group }}"
+    state: directory
+    recurse: yes
+    follow: yes
+    mode: "u=rwX,g=rwX,o=rX"
+  with_items:
+    - "{{ project_source_path }}/var"

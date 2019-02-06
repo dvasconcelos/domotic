@@ -1,0 +1,8 @@
+[webservers-prod]
+domotic-nas ansible_host=nas
+
+[webservers:children]
+webservers-prod
+
+[prod:children]
+webservers

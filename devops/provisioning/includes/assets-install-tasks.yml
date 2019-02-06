@@ -1,0 +1,5 @@
+---
+- name: "Install assets"
+  shell: "php bin/console assets:install --env={{ project_app_env }}"
+  args:
+    chdir: "{{ project_source_path }}"

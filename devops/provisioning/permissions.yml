@@ -1,0 +1,11 @@
+---
+- hosts: webservers
+  any_errors_fatal: true
+  gather_facts: false
+
+  vars:
+    ansible_user: "{{ project_delivery_user }}"
+
+  tasks:
+    # Clear the cache
+    - include_tasks: includes/permissions-tasks.yml

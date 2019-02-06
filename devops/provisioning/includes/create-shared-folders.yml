@@ -1,0 +1,3 @@
+- name: "Create shared folders item"
+  include_tasks: "create-shared-folder.yml"
+  with_items: "{{ project_shared_folders }}"

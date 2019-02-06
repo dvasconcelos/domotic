@@ -1,0 +1,45 @@
+- name: "{{ item }} - Check if path already exists in the source"
+  stat:
+    path: "{{ project_source_path }}/{{ item }}"
+  register: source_item
+
+- name: "{{ item }} - Check if path already exists in the shared folder"
+  stat:
+    path: "{{ project_shared_path }}/{{ item }}"
+  register: shared_item
+
+- name: "{{ item }} - Prepare path in the shared folder"
+  file:
+    path:  "{{ project_shared_path }}/{{ item }}"
+    owner: "{{ project_delivery_user }}"
+    group: "{{ project_webserver_group }}"
+    mode: "u=rwX,g=rwX,o=rX"
+    state: directory
+  when: not shared_item.stat.exists
+
+- name: "{{ item }} - Move source folders in the shared folder"
+  shell: "rsync -az {{ project_source_path }}/{{ item }}/ {{ project_shared_path }}/{{ item }}/"
+  when: not shared_item.stat.exists and source_item.stat.exists and not source_item.stat.islnk
+
+- name: "{{ item }} - Fix permissions in the shared folder"
+  file:
+    path: "{{ project_shared_path }}/{{ item }}"
+    owner: "{{ project_delivery_user }}"
+    group: "{{ project_webserver_group }}"
+    state: directory
+    recurse: no
+    follow: yes
+    mode: "u=rwX,g=rwX,o=rX"
+  when: not shared_item.stat.exists and source_item.stat.exists and not source_item.stat.islnk
+
+- name: "{{ item }} - Remove path in the source folder"
+  file:
+    path:  "{{ project_source_path }}/{{ item }}"
+    state: absent
+  when: source_item.stat.exists and not source_item.stat.islnk
+
+- name: "{{ item }} - Add symlinks for path from the release folder to the shared folder"
+  file:
+    src:  "{{ project_shared_path }}/{{ item }}"
+    dest: "{{ project_source_path }}/{{ item }}"
+    state: link

@@ -37,12 +37,12 @@ cd /var/www/
 mkdir domotic
 exit
 cd <project_dir>
-sudo lxc config device add domotic homedir disk source=$(pwd) path=/var/www/domotic
+sudo lxc config device add domotic homedir disk source=$(pwd) path=/var/www/domotic/current
 ```
 
 ## Web server
 
-- Install apache and php
+- Install apache, php, mysql and python
 
 ```
 ssh root@domotic.lxc
@@ -51,6 +51,13 @@ apt install libapache2-mod-fcgid -y
 apt install php7.2 -y
 apt install php7.2-fpm php7.2-xml php7.2-curl php7.2-mbstring php7.2-zip php7.2-mysql -y
 apt install mariadb-client mariadb-server -y
+apt install python -y
+```
+
+- Add delivery user to Apache group
+
+```
+usermod -a -G www-data ubuntu
 ```
 
 - Install composer
@@ -100,8 +107,8 @@ systemctl restart php7.2-fpm
     # regular expression must be changed accordingly:
     # ProxyPassMatch ^/path-to-app/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/var/www/project/public/$1
 
-    DocumentRoot /var/www/domotic/public
-    <Directory /var/www/domotic/public>
+    DocumentRoot /var/www/domotic/current/public
+    <Directory /var/www/domotic/current/public>
         AllowOverride None
         Order Allow,Deny
         Allow from All
@@ -111,14 +118,14 @@ systemctl restart php7.2-fpm
 
     # uncomment the following lines if you install assets as symlinks
     # or run into problems when compiling LESS/Sass/CoffeeScript assets
-    <Directory /var/www/domotic>
+    <Directory /var/www/domotic/current>
        Options FollowSymlinks
     </Directory>
 
     # optionally disable the fallback resource for the asset directories
     # which will allow Apache to return a 404 error when files are
     # not found instead of passing the request to Symfony
-    <Directory /var/www/domotic/public/bundles>
+    <Directory /var/www/domotic/current/public/bundles>
         FallbackResource disabled
     </Directory>
 

@@ -1,0 +1,5 @@
+---
+- name: "Deploy Symfony .env configuration file"
+  template:
+    src: "symfony/.env.j2"
+    dest: "{{ project_source_path }}/.env"

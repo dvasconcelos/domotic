@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Domotic" default="package" basedir=".">
+
+    <tstamp>
+        <format property="now" pattern="yyyyMMddHHmmss"  locale="fr,FR" />
+    </tstamp>
+
+    <property name="projectName" value="domotic" />
+    <property name="gitUrl" value="git@github.com:dvasconcelos/domotic.git" />
+    <property name="buildDir" location="./build/dist" />
+    <property name="branch" value="master" />
+    <property name="tag" value="" />
+
+    <target name="package" depends="cleanUp, getReleaseDir, gitCheckout, installDependencies, cleanRelease, buildArchive">
+        <echo message="You can now deliver the release using the following command:" level="info" />
+        <echo message="./devops/scripts/deploy.sh &lt;env&gt; ${release}" level="info" />
+    </target>
+
+    <target name="cleanUp">
+        <echo message="Clean up build directory" level="info" />
+        <delete dir="${buildDir}" />
+    </target>
+
+    <target name="getReleaseDir">
+        <echo message="Get release name" level="info" />
+        <condition property="release" value="dev-${branch}-${now}" else="/release-${tag}-${now}" >
+            <equals arg1="${tag}" arg2="" />
+        </condition>
+        <property name="releaseDirName" value="${projectName}-${release}" />
+        <property name="releaseDir" value="${buildDir}/${releaseDirName}" />
+    </target>
+
+    <target name="gitCheckout" depends="getReleaseDir">
+        <echo message="Checkout project sources" level="info" />
+        <condition property="checkout" value="${branch}" else="tags/${tag}">
+            <equals arg1="${tag}" arg2="" />
+        </condition>
+        <exec executable="git">
+            <arg value="clone"/>
+            <arg value="${gitUrl}"/>
+            <arg value="${releaseDir}"/>
+        </exec>
+        <exec executable="git" dir="${releaseDir}">
+            <arg value="checkout"/>
+            <arg value="${checkout}"/>
+        </exec>
+    </target>
+
+    <target name="installDependencies" depends="getReleaseDir">
+        <echo message="Install project dependencies" level="info" />
+        <exec executable="composer" dir="${releaseDir}">
+            <arg value="install"/>
+            <arg value="--no-scripts"/>
+        </exec>
+    </target>
+
+    <target name="cleanRelease" depends="getReleaseDir">
+        <echo message="Clean useless files and directories" level="info" />
+        <delete includeemptydirs="true">
+            <fileset dir="${releaseDir}" defaultexcludes="false">
+                <include name="composer.json" />
+                <include name="composer.lock" />
+                <include name="**/.git/**" />
+                <include name=".gitignore" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="buildArchive" depends="getReleaseDir">
+        <echo message="Build archive" level="info" />
+        <exec executable="tar" dir="${buildDir}">
+            <arg value="-czf" />
+            <arg value="${releaseDirName}.tar.gz" />
+            <arg value="${releaseDirName}" />
+        </exec>
+        <delete dir="${releaseDir}" />
+    </target>
+
+</project>

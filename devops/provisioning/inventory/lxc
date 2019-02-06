@@ -1,0 +1,8 @@
+[webservers-lxc]
+domotic-lxc ansible_host=domotic.lxc
+
+[webservers:children]
+webservers-lxc
+
+[lxc:children]
+webservers
