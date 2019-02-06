@@ -58,8 +58,6 @@
         <echo message="Clean useless files and directories" level="info" />
         <delete includeemptydirs="true">
             <fileset dir="${releaseDir}" defaultexcludes="false">
-                <include name="composer.json" />
-                <include name="composer.lock" />
                 <include name="**/.git/**" />
                 <include name=".gitignore" />
             </fileset>
@@ -71,7 +69,9 @@
         <exec executable="tar" dir="${buildDir}">
             <arg value="-czf" />
             <arg value="${releaseDirName}.tar.gz" />
+            <arg value="-C" />
             <arg value="${releaseDirName}" />
+            <arg value="." />
         </exec>
         <delete dir="${releaseDir}" />
     </target>
