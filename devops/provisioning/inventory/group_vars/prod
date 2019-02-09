@@ -1,1 +1,8 @@
 ---
+project_app_secret: "{{ vault_app_secret }}"
+
+project_db_host: "127.0.0.1"
+project_db_port: "3306"
+project_db_user: "domotic"
+project_db_password: "{{ vault_db_password}}"
+project_db_name: "domotic"

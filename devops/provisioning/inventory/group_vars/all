@@ -20,7 +20,7 @@ project_db_user: "db_user"
 project_db_password: "db_password"
 project_db_name: "db_name"
 
-project_app_env: "prod"
+project_app_env: "dev"
 project_app_secret: "9f93b697c9ec7acb394b1b2a041fba19"
 project_database_url: "mysql://{{ project_db_user }}:{{ project_db_password }}@{{ project_db_host }}:3306/{{ project_db_name }}"
 project_mailer_url: "null://localhost"

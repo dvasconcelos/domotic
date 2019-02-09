@@ -145,7 +145,16 @@ a2enmod rewrite
 - Enable vhost
 
 ```
- a2dissite 000-default.conf
- a2ensite domotic.lxc.conf
- systemctl restart apache2
+a2dissite 000-default.conf
+a2ensite domotic.lxc.conf
+systemctl restart apache2
+```
+
+- Create database
+
+```
+mysql
+CREATE DATABASE domotic CHARSET UTF8;
+CREATE USER domotic@localhost IDENTIFIED BY 'domotic';
+GRANT ALL ON domotic.* TO domotic@localhost IDENTIFIED BY 'domotic';
 ```

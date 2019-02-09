@@ -17,4 +17,5 @@ fi
 # save the inventory
 deploy_version=${2}
 
-ansible-playbook devops/provisioning/deploy.yml -i devops/provisioning/inventory/${inventory} --extra-vars "deploy_version=$deploy_version"
+ansible-playbook devops/provisioning/deploy.yml --ask-vault-pass -e @devops/provisioning/vault/${inventory}.yml \
+  -i devops/provisioning/inventory/${inventory} --extra-vars "deploy_version=$deploy_version"

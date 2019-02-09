@@ -1,4 +1,6 @@
 doctrine:
+    dbal:
+        server_version: 'mariadb-10.3.7'
     orm:
         auto_generate_proxy_classes: false
         metadata_cache_driver:
